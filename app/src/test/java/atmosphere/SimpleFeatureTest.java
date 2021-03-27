@@ -23,6 +23,6 @@ public class SimpleFeatureTest {
 
     @Then("result is three")
     public void resultIsThree() {
-        Assertions.assertThat(result).isEqualTo(1 + 4);
+        Assertions.assertThat(result).isEqualTo(1 + 2);
     }
 }
