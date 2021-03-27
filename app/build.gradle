@@ -25,6 +25,13 @@ dependencies {
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
+
+    // Cucumber for BDD style testing.
+    testImplementation 'io.cucumber:cucumber-java:6.8.1'
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:6.10.0'
+
+    // AssertJ for smart assertion in testing.
+    testImplementation("org.assertj:assertj-core:3.11.1")
 }
 
 application {
