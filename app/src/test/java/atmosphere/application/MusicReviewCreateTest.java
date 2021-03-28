@@ -8,8 +8,8 @@ import org.assertj.core.api.Assertions;
 
 import java.util.List;
 
-public class MusicReviewApplicationServiceTest {
-    private MusicReviewApplicationService musicReviewService = new MusicReviewApplicationService();
+public class MusicReviewCreateTest {
+    private final MusicReviewApplicationService musicReviewService = new MusicReviewApplicationService();
 
     private String musicLink;
     private String reviewTitle;
