@@ -2,7 +2,7 @@ FROM openjdk:15 AS builder
 
 COPY . .
 
-CMD ["./gradlew", "app:assemble"]
+RUN ./gradlew app:assemble
 
 FROM openjdk:15
 
