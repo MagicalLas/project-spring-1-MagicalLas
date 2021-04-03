@@ -10,4 +10,16 @@ public class MusicReview {
         this.description = description;
         this.musicLink = musicLink;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getMusicLink() {
+        return musicLink;
+    }
 }
