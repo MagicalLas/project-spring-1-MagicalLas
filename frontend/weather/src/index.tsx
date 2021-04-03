@@ -8,6 +8,7 @@ import App from './App';
 import WriteReview from './WriteReview';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import ReviewTour from './ReviewTour';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,6 +16,7 @@ ReactDOM.render(
       <Switch>
         <Route path="/" exact component={App} />
         <Route path="/write-review" component={WriteReview} />
+        <Route path="/review-tour" component={ReviewTour} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,

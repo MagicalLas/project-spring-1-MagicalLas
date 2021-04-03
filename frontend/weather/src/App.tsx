@@ -12,10 +12,11 @@ function App() {
         >
           음악 리뷰 작성하러 가기
         </a>
-        <button
+        <a
+          href="/review-tour"
         >
           리뷰들 둘러보기
-        </button>
+        </a>
       </header>
     </div>
   );

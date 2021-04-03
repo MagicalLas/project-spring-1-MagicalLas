@@ -1,0 +1,12 @@
+.eachReview {
+    background-color: #8b91eb;
+    width: 400px;
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    margin: 0px;
+    padding-top: 10px;
+    font-size: 30px;
+}

@@ -1,11 +1,15 @@
 import { useState } from "react";
 
+import { useHistory } from "react-router-dom";
+
 import './App.css';
 import './WriteReview.css';
 
 import axios from 'axios';
 
 function WriteReview() {
+    const history = useHistory();
+
     const [reviewTitle, setreviewTitle] = useState("");
     const [musicLink, setmusicLink] = useState("");
     const [reviewDescription, setreviewDescription] = useState("");
@@ -16,7 +20,9 @@ function WriteReview() {
             description: reviewDescription,
             musicLink: musicLink,
         }
-        axios.post("https://api.atmop.dev/music-reviews", writeReviewRequestBody)
+        axios.post("https://api.atmop.dev/music-reviews", writeReviewRequestBody).then(
+            response => history.push("/review-tour")
+        )
         return false;
     };
 
@@ -38,7 +44,9 @@ function WriteReview() {
                     onChange={(e) => setreviewDescription(e.target.value)}
                 ></textarea>
 
-                <button onClick={writeReview}>
+                <button
+                    onClick={writeReview}
+                >
                     작성 완료!
                 </button>
             </header>
