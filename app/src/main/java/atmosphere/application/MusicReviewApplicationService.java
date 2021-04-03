@@ -1,6 +1,7 @@
 package atmosphere.application;
 
 import atmosphere.domain.MusicReview;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * 음악 리뷰에 대한 유즈케이스를 담당합니다.
  */
+@Service
 public class MusicReviewApplicationService {
     private final List<MusicReview> musicReviewList = new ArrayList<>();
 
@@ -30,5 +32,12 @@ public class MusicReviewApplicationService {
      */
     public List<MusicReview> findAllMusicReviews() {
         return musicReviewList;
+    }
+
+    /**
+     * 서비스를 초기화합니다.
+     */
+    public void initialize() {
+        musicReviewList.clear();
     }
 }
