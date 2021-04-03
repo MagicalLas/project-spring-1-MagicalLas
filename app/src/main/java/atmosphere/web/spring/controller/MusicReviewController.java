@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins = "https://atmop.dev")
 @RequestMapping(path = "/music-reviews", produces = "application/json;charset=UTF-8")
 public class MusicReviewController {
     private final MusicReviewApplicationService service;
