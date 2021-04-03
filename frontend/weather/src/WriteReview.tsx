@@ -16,7 +16,7 @@ function WriteReview() {
             description: reviewDescription,
             musicLink: musicLink,
         }
-        axios.post("https://atmop.dev/music-reviews", writeReviewRequestBody)
+        axios.post("https://api.atmop.dev/music-reviews", writeReviewRequestBody)
         return false;
     };
 
