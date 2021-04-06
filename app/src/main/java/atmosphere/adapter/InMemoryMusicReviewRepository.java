@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class InMemoryMusicReviewRepository implements MusicReviewRepository {
@@ -30,5 +31,14 @@ public class InMemoryMusicReviewRepository implements MusicReviewRepository {
     @Override
     public Long nextId() {
         return ++lastId;
+    }
+
+    @Override
+    public Optional<MusicReview> findById(Long id) {
+        return musicReviewList
+            .stream()
+            .filter(
+                musicReview -> musicReview.getId().equals(id)
+            ).findAny();
     }
 }

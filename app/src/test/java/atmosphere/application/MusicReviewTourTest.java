@@ -9,12 +9,15 @@ import io.cucumber.java.en.When;
 import org.assertj.core.api.Assertions;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MusicReviewTourTest {
     private final MusicReviewRepository repository = new InMemoryMusicReviewRepository();
     private final MusicReviewApplicationService musicReviewService = new MusicReviewApplicationService(repository);
     private MusicReview musicReview;
+
     private List<MusicReview> allMusicReviews;
+    private Optional<MusicReview> specificReview;
 
     @Given("음악 리뷰가 이미 생성되었을 때")
     public void alreadyCreateMusicReview() {
@@ -34,5 +37,27 @@ public class MusicReviewTourTest {
     public void shouldContainAllCreatedReviews() {
         Assertions.assertThat(allMusicReviews).contains(musicReview);
         Assertions.assertThat(allMusicReviews).hasSize(1);
+    }
+
+    @When("생성된 특정 리뷰를 가져온다면")
+    public void getSpecificReview() {
+        specificReview = musicReviewService.findSpecificReview(musicReview.getId());
+    }
+
+    @Then("생성된 리뷰가 리턴된다")
+    public void returnCreatedReview() {
+        Assertions.assertThat(specificReview).isNotEmpty();
+        Assertions.assertThat(specificReview.get()).isEqualTo(musicReview);
+    }
+
+    @Given("음악 리뷰가 하나도 생성되지 않았을 때")
+    public void emptyMusicReview() {
+        // not exist music
+        musicReview = new MusicReview(-1L, "", "", "");
+    }
+
+    @Then("리뷰를 찾지 못한다")
+    public void cantFindReview() {
+        Assertions.assertThat(specificReview).isEmpty();
     }
 }

@@ -5,6 +5,7 @@ import atmosphere.domain.MusicReviewRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 음악 리뷰에 대한 유즈케이스를 담당합니다.
@@ -43,5 +44,15 @@ public class MusicReviewApplicationService {
      */
     public void initialize() {
         repository.deleteAll();
+    }
+
+    /**
+     * 특정한 리뷰를 찾습니다.
+     *
+     * @param id 찾으려는 리뷰의 아이디
+     * @return 찾은 리뷰. 만약 리뷰를 찾지 못한다면 Optional.empty를 반환한다.
+     */
+    public Optional<MusicReview> findSpecificReview(Long id) {
+        return repository.findById(id);
     }
 }
