@@ -1,9 +1,9 @@
 package atmosphere.application;
 
 import atmosphere.domain.MusicReview;
+import atmosphere.domain.MusicReviewRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,8 +11,11 @@ import java.util.List;
  */
 @Service
 public class MusicReviewApplicationService {
-    private final List<MusicReview> musicReviewList = new ArrayList<>();
+    private final MusicReviewRepository repository;
 
+    public MusicReviewApplicationService(MusicReviewRepository repository) {
+        this.repository = repository;
+    }
     /**
      * 음악 리뷰를 생성합니다.
      *
@@ -23,7 +26,7 @@ public class MusicReviewApplicationService {
      */
     public MusicReview createMusicReview(String musicLink, String reviewTitle, String description) {
         MusicReview musicReview = new MusicReview(musicLink, reviewTitle, description);
-        musicReviewList.add(musicReview);
+        repository.add(musicReview);
         return musicReview;
     }
 
@@ -31,13 +34,13 @@ public class MusicReviewApplicationService {
      * @return 생성된 모든 리뮤 목록
      */
     public List<MusicReview> findAllMusicReviews() {
-        return musicReviewList;
+        return repository.getAll();
     }
 
     /**
      * 서비스를 초기화합니다.
      */
     public void initialize() {
-        musicReviewList.clear();
+        repository.deleteAll();
     }
 }

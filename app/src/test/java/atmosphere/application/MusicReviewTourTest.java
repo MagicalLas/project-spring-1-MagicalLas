@@ -1,6 +1,8 @@
 package atmosphere.application;
 
+import atmosphere.adapter.InMemoryMusicReviewRepository;
 import atmosphere.domain.MusicReview;
+import atmosphere.domain.MusicReviewRepository;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -9,7 +11,8 @@ import org.assertj.core.api.Assertions;
 import java.util.List;
 
 public class MusicReviewTourTest {
-    private final MusicReviewApplicationService musicReviewService = new MusicReviewApplicationService();
+    private final MusicReviewRepository repository = new InMemoryMusicReviewRepository();
+    private final MusicReviewApplicationService musicReviewService = new MusicReviewApplicationService(repository);
     private MusicReview musicReview;
     private List<MusicReview> allMusicReviews;
 
