@@ -25,7 +25,8 @@ public class MusicReviewApplicationService {
      * @return 생성된 리뷰
      */
     public MusicReview createMusicReview(String musicLink, String reviewTitle, String description) {
-        MusicReview musicReview = new MusicReview(musicLink, reviewTitle, description);
+        Long id = repository.nextId();
+        MusicReview musicReview = new MusicReview(id, musicLink, reviewTitle, description);
         repository.add(musicReview);
         return musicReview;
     }
