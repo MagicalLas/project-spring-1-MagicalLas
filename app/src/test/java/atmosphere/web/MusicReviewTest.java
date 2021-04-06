@@ -99,7 +99,7 @@ public class MusicReviewTest {
                 String musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
                 String reviewTitle = "Sayuri - Mikazuki";
                 String description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
-                MusicReviewDTO data = new MusicReviewDTO(musicLink, reviewTitle, description);
+                MusicReviewDTO data = new MusicReviewDTO(1L, musicLink, reviewTitle, description);
 
                 requestBody = mapper.writeValueAsString(data);
             }

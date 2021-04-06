@@ -10,6 +10,7 @@ import java.util.List;
 @Repository
 public class InMemoryMusicReviewRepository implements MusicReviewRepository {
     private final List<MusicReview> musicReviewList = new ArrayList<>();
+    private Long lastId = 0L;
 
     @Override
     public List<MusicReview> getAll() {
@@ -24,5 +25,10 @@ public class InMemoryMusicReviewRepository implements MusicReviewRepository {
     @Override
     public void deleteAll() {
         musicReviewList.clear();
+    }
+
+    @Override
+    public Long nextId() {
+        return ++lastId;
     }
 }
