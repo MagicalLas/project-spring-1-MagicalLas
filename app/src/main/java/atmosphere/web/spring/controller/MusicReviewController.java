@@ -2,6 +2,7 @@ package atmosphere.web.spring.controller;
 
 import atmosphere.application.MusicReviewApplicationService;
 import atmosphere.domain.MusicReview;
+import atmosphere.error.NotFountMusicReview;
 import atmosphere.web.spring.dto.MusicReviewDTO;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,15 @@ public class MusicReviewController {
             .stream()
             .map(MusicReviewDTO::fromModel)
             .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{id}")
+    MusicReviewDTO getSpecificReview(@PathVariable Long id){
+        return service.findSpecificReview(id)
+            .map(MusicReviewDTO::fromModel)
+            .orElseThrow(
+                () -> new NotFountMusicReview(id)
+            );
     }
 
     @PostMapping
