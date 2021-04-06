@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import App from './App';
 import WriteReview from './WriteReview';
-
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ReviewTour from './ReviewTour';
+import ReviewDetail from './ReviewDetail';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -17,6 +17,7 @@ ReactDOM.render(
         <Route path="/" exact component={App} />
         <Route path="/write-review" component={WriteReview} />
         <Route path="/review-tour" component={ReviewTour} />
+        <Route path="/reviews/:id" component={ReviewDetail} />
       </Switch>
     </BrowserRouter>
   </React.StrictMode>,
