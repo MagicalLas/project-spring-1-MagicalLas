@@ -15,20 +15,21 @@ class ReviewDTO {
     constructor(title: string, description: string, musicLink: string) {
         this.title = title;
         this.description = description;
-        if (!musicLink.includes("https://www.youtube.com/embed")) {
-            musicLink = musicLink.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/")
-            musicLink = musicLink.replace("https://youtu.be/", "https://www.youtube.com/embed/")
-            this.musicLink = musicLink;
-        }
-        else {
-            this.musicLink = musicLink;
-        }
+        this.musicLink = musicLink;
     }
     title: string;
     description: string;
     musicLink: string;
 }
 
+const replaceYoutubeLink = (musicLink: string) => {
+    if (!musicLink.includes("embed")) {
+        musicLink = musicLink.replace("https://www.youtube.com/watch?v=", "https://www.youtube.com/embed/");
+        musicLink = musicLink.replace("https://youtu.be/", "https://www.youtube.com/embed/");
+        return musicLink;
+    }
+    return musicLink;
+}
 
 function ReviewDetail(props: RouteComponentProps<MatchParams>) {
     const id = props.match.params.id;
@@ -38,7 +39,7 @@ function ReviewDetail(props: RouteComponentProps<MatchParams>) {
     const [reviewDescription, setReviewDescription] = useState("");
 
     const renderReviewDetail = (review: ReviewDTO) => {
-        setMusicLink(review.musicLink);
+        setMusicLink(replaceYoutubeLink(review.musicLink));
         setReviewDescription(review.description);
         setReviewTitle(review.title);
     }
