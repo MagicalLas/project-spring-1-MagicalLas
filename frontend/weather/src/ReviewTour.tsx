@@ -1,19 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import './App.css';
 import './ReviewTour.css';
 
 import axios from 'axios';
+import { useHistory } from "react-router-dom";
 
 class ReviewDTO {
-    constructor(title: string, description: string, musicLink: string) {
+    constructor(id: number, title: string) {
+        this.id = id;
         this.title = title;
-        this.description = description;
-        this.musicLink = musicLink;
     }
+    id: number;
     title: string;
-    description: string;
-    musicLink: string;
 }
 
 interface ReviewListProps {
@@ -21,14 +20,33 @@ interface ReviewListProps {
 }
 
 function ReviewTour() {
-    const [reviewList, setReviewList] = useState([]);
+    const history = useHistory();
+    const [reviewList, setReviewList] = useState<ReviewDTO[]>([]);
 
-    axios.get("https://api.atmop.dev/music-reviews").then(
-        response => setReviewList(response.data)
-    );
-    
+    useEffect(
+        () => {
+            axios.get("https://api.atmop.dev/music-reviews").then(
+                response => setReviewList(response.data)
+            ).catch(
+                () => {
+                    console.error("Error! HTTP API call is failed. Load default music review!");
+                    const list: ReviewDTO[] = [
+                        new ReviewDTO(1, "Sayuri - Mikazuki"),
+                    ];
+                    setReviewList(list);
+                }
+            );
+        }
+    , [])
+
     const Review = (props: ReviewDTO) => {
-        return <div className="eachReview">
+        const moveToDetailPage = () => {
+            history.push("/reviews/" + props.id)
+        }
+        return <div
+            className="eachReview"
+            onClick={moveToDetailPage}
+        >
             <h2>
                 {props.title}
             </h2>
