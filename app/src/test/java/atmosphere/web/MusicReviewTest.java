@@ -1,6 +1,7 @@
 package atmosphere.web;
 
 import atmosphere.application.MusicReviewApplicationService;
+import atmosphere.domain.MusicReview;
 import atmosphere.web.spring.dto.MusicReviewDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,6 +86,52 @@ public class MusicReviewTest {
         }
     }
 
+    @Nested
+    @DisplayName("특정 리뷰를 가져올 때")
+    class Describe_getSpecificReview {
+        @Nested
+        @DisplayName("생성된 리뷰가 없다면")
+        class Context_notExistReviews {
+            @Test
+            @DisplayName("404를 반환한다.")
+            void it_shouldReturn404() throws Exception {
+                mockMvc.perform(get("/music-reviews/9999"))
+                    .andExpect(
+                        status().is(404));
+            }
+        }
+        @Nested
+        @DisplayName("리뷰가 이미 생성되어 있다면")
+        class Context_alreadyExistReview {
+            private String musicLink;
+            private String reviewTitle;
+            private String description;
+            private MusicReview createdMusicReview;
+
+            @BeforeEach
+            void createReview() {
+                musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
+                reviewTitle = "Sayuri - Mikazuki";
+                description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
+                createdMusicReview = service.createMusicReview(musicLink, reviewTitle, description);
+            }
+
+            @Test
+            @DisplayName("생성된 리뷰를 반환한다.")
+            void it_shouldReturnSpecificReview() throws Exception {
+                String id = createdMusicReview.getId().toString();
+                mockMvc.perform(get("/music-reviews/" + id).accept(MediaType.APPLICATION_JSON))
+                    .andExpect(
+                        status().is(200))
+                    .andExpect(
+                        content().string(containsString(reviewTitle)))
+                    .andExpect(
+                        content().string(containsString(musicLink)))
+                    .andExpect(
+                        content().string(containsString(description)));
+            }
+        }
+    }
 
     @Nested
     @DisplayName("음악 리뷰를 작성할 때")
