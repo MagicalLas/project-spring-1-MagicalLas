@@ -71,7 +71,7 @@ public class MusicReviewTest {
 
             @Test
             @DisplayName("생성된 리뷰를 반환한다.")
-            void it_shouldReturnEmptyList() throws Exception {
+            void it_shouldReturnAllMusicList() throws Exception {
                 mockMvc.perform(get("/music-reviews").accept(MediaType.APPLICATION_JSON))
                     .andExpect(
                         status().is(200))
