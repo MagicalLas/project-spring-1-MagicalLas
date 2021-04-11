@@ -11,6 +11,7 @@ import java.util.Optional;
 /**
  * 음악 추천에 관련된 유즈케이스를 담당합니다.
  */
+@Service
 public class MusicRecommendApplicationService {
     private final MusicRecommendationBoxRepository repository;
 
@@ -35,5 +36,12 @@ public class MusicRecommendApplicationService {
      */
     public Optional<MusicRecommendationBox> findMyMusicRecommendationBox(String userId) {
         return repository.findById(userId);
+    }
+
+    /**
+     * 서비스를 초기화합니다.
+     */
+    public void initialize() {
+        repository.deleteAll();
     }
 }
