@@ -3,6 +3,7 @@ package atmosphere.application;
 import atmosphere.domain.MusicRecommendationBox;
 import atmosphere.domain.MusicRecommendationBoxRepository;
 import atmosphere.error.AlreadyExistRecommendationBox;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
@@ -17,7 +18,7 @@ public class MusicRecommendApplicationService {
         this.repository = repository;
     }
 
-    MusicRecommendationBox createMusicRecommendationBox(String userId) {
+    public MusicRecommendationBox createMusicRecommendationBox(String userId) {
         if(findMyMusicRecommendationBox(userId).isPresent()) {
             throw new AlreadyExistRecommendationBox();
         }
@@ -32,7 +33,7 @@ public class MusicRecommendApplicationService {
      * @param userId 자신의 유저 아이디
      * @return 자신의 음악 추천함
      */
-    Optional<MusicRecommendationBox> findMyMusicRecommendationBox(String userId) {
+    public Optional<MusicRecommendationBox> findMyMusicRecommendationBox(String userId) {
         return repository.findById(userId);
     }
 }
