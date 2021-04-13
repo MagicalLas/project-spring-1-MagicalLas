@@ -20,7 +20,6 @@ public class MusicReviewCreateTest {
 
     private MusicReview musicReview;
 
-
     @Given("노래 링크와 리뷰 제목, 노래 설명이 주어졌을 때")
     public void givenMusicInfo() {
         musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
@@ -37,5 +36,26 @@ public class MusicReviewCreateTest {
     public void shouldFindMusicReview() {
         List<MusicReview> allMusicReviews = musicReviewService.findAllMusicReviews();
         Assertions.assertThat(allMusicReviews).contains(musicReview);
+    }
+
+    @Given("이미 노래 리뷰가 생성되었을 때")
+    public void alreadyCreateMusicReview() {
+        musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
+        reviewTitle = "Sayuri - Mikazuki";
+        description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
+
+        musicReview = musicReviewService.createMusicReview(musicLink, reviewTitle, description);
+    }
+
+    @When("리뷰를 삭제한다면")
+    public void deleteMusicReview() {
+        musicReviewService.deleteMusicReview(musicReview.getId());
+    }
+
+    @Then("삭제한 노래 리뷰를 찾을 수 없습니다")
+    public void shouldNotFoundMusicReview() {
+        List<MusicReview> allMusicReviews = musicReviewService.findAllMusicReviews();
+        Assertions.assertThat(allMusicReviews).doesNotContain(musicReview);
+        Assertions.assertThat(allMusicReviews).hasSize(0);
     }
 }

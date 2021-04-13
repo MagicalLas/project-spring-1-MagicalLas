@@ -55,4 +55,13 @@ public class MusicReviewApplicationService {
     public Optional<MusicReview> findSpecificReview(Long id) {
         return repository.findById(id);
     }
+
+    /**
+     * 만들어진 리뷰를 삭제합니다.
+     *
+     * @param id 삭제하려는 리뷰의 아이디
+     */
+    public void deleteMusicReview(Long id) {
+        repository.delete(id);
+    }
 }

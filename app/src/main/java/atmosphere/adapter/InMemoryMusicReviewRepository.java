@@ -2,6 +2,7 @@ package atmosphere.adapter;
 
 import atmosphere.domain.MusicReview;
 import atmosphere.domain.MusicReviewRepository;
+import atmosphere.error.NotFountMusicReview;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -26,6 +27,14 @@ public class InMemoryMusicReviewRepository implements MusicReviewRepository {
     @Override
     public void deleteAll() {
         musicReviewList.clear();
+    }
+
+    @Override
+    public void delete(Long id) {
+        MusicReview targetReview = findById(id).orElseThrow(
+            () -> new NotFountMusicReview(id)
+        );
+        musicReviewList.remove(targetReview);
     }
 
     @Override

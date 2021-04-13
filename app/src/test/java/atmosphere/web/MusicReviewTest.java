@@ -16,8 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.StringContains.containsString;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -100,6 +99,7 @@ public class MusicReviewTest {
                         status().is(404));
             }
         }
+
         @Nested
         @DisplayName("리뷰가 이미 생성되어 있다면")
         class Context_alreadyExistReview {
@@ -150,6 +150,7 @@ public class MusicReviewTest {
 
                 requestBody = mapper.writeValueAsString(data);
             }
+
             @Test
             @DisplayName("리뷰가 생성된다.")
             void it_shouldBeOk() throws Exception {
@@ -171,6 +172,7 @@ public class MusicReviewTest {
             void prepareInvalidRequestBody() {
                 requestBody = "";
             }
+
             @Test
             @DisplayName("리뷰가 생성되지 않는다.")
             void it_shouldBeBadRequest() throws Exception {
@@ -180,6 +182,51 @@ public class MusicReviewTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                     .andExpect(status().isBadRequest());
+            }
+        }
+    }
+
+    @Nested
+    @DisplayName("특정한 음악 리뷰를 삭제할 때")
+    class Describe_deleteSpecificReview {
+        @Nested
+        @DisplayName("생성된 리뷰가 없다면")
+        class Context_notExistReviews {
+            @Test
+            @DisplayName("404를 반환한다.")
+            void it_shouldReturn404() throws Exception {
+                mockMvc.perform(delete("/music-reviews/9999"))
+                    .andExpect(
+                        status().is(404));
+            }
+        }
+
+        @Nested
+        @DisplayName("리뷰가 이미 생성되어 있다면")
+        class Context_alreadyExistReview {
+            private String musicLink;
+            private String reviewTitle;
+            private String description;
+            private MusicReview createdMusicReview;
+
+            @BeforeEach
+            void createReview() {
+                musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
+                reviewTitle = "Sayuri - Mikazuki";
+                description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
+                createdMusicReview = service.createMusicReview(musicLink, reviewTitle, description);
+            }
+
+            @Test
+            @DisplayName("생성된 리뷰를 반환한다.")
+            void it_shouldReturnSpecificReview() throws Exception {
+                String id = createdMusicReview.getId().toString();
+                mockMvc.perform(
+                    delete("/music-reviews/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(
+                        status().is(200)
+                    );
             }
         }
     }
