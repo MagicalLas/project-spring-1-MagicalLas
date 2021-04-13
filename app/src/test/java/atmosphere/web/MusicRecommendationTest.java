@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.core.StringContains.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -85,4 +86,39 @@ public class MusicRecommendationTest {
             }
         }
     }
+
+    @Nested
+    @DisplayName("나의 음악 추천함을 살펴볼 때")
+    class Describe_findMyMusicRecommendationBox {
+        private final String userName = "LasWonho";
+
+        @Nested
+        @DisplayName("생성된 추천 상자가 없다면")
+        class Context_notExistMusicRecommendationBox {
+            @Test
+            void it_shouldFail() throws Exception {
+                mockMvc.perform(get("/music-recommendation-box/" + userName))
+                    .andExpect(
+                        status().isNotFound()
+                    );
+            }
+        }
+
+        @Nested
+        @DisplayName("추천 상자를 이미 생성한 경우")
+        class Context_existMusicRecommendationBox {
+            @BeforeEach
+            void createBox() {
+                service.createMusicRecommendationBox(userName);
+            }
+            @Test
+            void it_shouldBeOk() throws Exception {
+                mockMvc.perform(get("/music-recommendation-box/" + userName))
+                    .andExpect(
+                        status().isOk()
+                    );
+            }
+        }
+    }
+
 }
