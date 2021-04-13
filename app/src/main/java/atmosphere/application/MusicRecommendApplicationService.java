@@ -1,7 +1,6 @@
 package atmosphere.application;
 
-import atmosphere.domain.MusicRecommendationBox;
-import atmosphere.domain.MusicRecommendationBoxRepository;
+import atmosphere.domain.*;
 import atmosphere.error.AlreadyExistRecommendationBox;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class MusicRecommendApplicationService {
     }
 
     public MusicRecommendationBox createMusicRecommendationBox(String userId) {
-        if(findMyMusicRecommendationBox(userId).isPresent()) {
+        if (findMyMusicRecommendationBox(userId).isPresent()) {
             throw new AlreadyExistRecommendationBox();
         }
         MusicRecommendationBox musicBox = new MusicRecommendationBox(userId);
@@ -36,6 +35,27 @@ public class MusicRecommendApplicationService {
      */
     public Optional<MusicRecommendationBox> findMyMusicRecommendationBox(String userId) {
         return repository.findById(userId);
+    }
+
+    /**
+     * 음악 추천 상자에 새로운 음악을 추가합니다.
+     *
+     * @param id 음악이 추가된 상자 아이디
+     * @param musicLink 음악 링크
+     * @param title 음악 이름
+     * @param description 추천 이유
+     * @return 추천이 추가된 음악 추천 상자
+     */
+    public Optional<MusicRecommendationBox> recommendMusic(String id, String musicLink, String title, String description) {
+        Optional<MusicRecommendationBox> box = repository.findById(id);
+        Recommendation recommendation = new Recommendation(musicLink, title, description);
+        box.map(
+            (musicRecommendationBox) -> {
+                musicRecommendationBox.recommend(recommendation);
+                return musicRecommendationBox;
+            }
+        );
+        return box;
     }
 
     /**
