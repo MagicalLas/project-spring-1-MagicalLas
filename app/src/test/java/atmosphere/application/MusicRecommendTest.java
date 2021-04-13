@@ -67,4 +67,19 @@ public class MusicRecommendTest {
             () -> service.createMusicRecommendationBox(userId)
         );
     }
+
+    @When("그 추천함에 음악을 추천 한다면")
+    public void recommendMusic() {
+        String musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
+        String title = "Sayuri - Mikazuki";
+        String description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
+
+        usersMusicBox = service.recommendMusic(musicBox.id(), musicLink, title, description);
+    }
+
+    @Then("음악 추천함에 새로운 추천이 생긴다")
+    public void shouldHaveNewRecommendations() {
+        Assertions.assertThat(usersMusicBox).isNotEmpty();
+        Assertions.assertThat(usersMusicBox.get().showAllRecommendation()).hasSize(1);
+    }
 }
