@@ -7,6 +7,7 @@ public interface MusicReviewRepository {
     List<MusicReview> getAll();
     void add(MusicReview musicReview);
     void deleteAll();
+    void delete(Long id);
     Long nextId();
     Optional<MusicReview> findById(Long id);
 }

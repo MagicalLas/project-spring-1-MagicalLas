@@ -36,6 +36,11 @@ public class MusicReviewController {
             );
     }
 
+    @DeleteMapping("/{id}")
+    void deleteSpecificReview(@PathVariable Long id){
+        service.deleteMusicReview(id);
+    }
+
     @PostMapping
     MusicReviewDTO createReview(@RequestBody MusicReviewDTO data){
         MusicReview createdReview = service.createMusicReview(data.musicLink, data.title, data.description);
