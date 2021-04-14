@@ -1,7 +1,10 @@
 package atmosphere.web;
 
 import atmosphere.application.MusicRecommendApplicationService;
+import atmosphere.web.spring.dto.MusicDTO;
 import atmosphere.web.spring.dto.MusicRecommendationBoxCreateDTO;
+import atmosphere.web.spring.dto.MusicReviewDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -121,4 +124,60 @@ public class MusicRecommendationTest {
         }
     }
 
+    @Nested
+    @DisplayName("다른 사람이 음악을 추천할 때")
+    class Describe_recommendMusic {
+        private final String userName = "LasWonho";
+        private final String requestPath = "/music-recommendation-box/" + userName + "/recommend";
+        private String requestBody;
+
+        @BeforeEach
+        void prepareValidRequestBody() throws JsonProcessingException {
+            String musicLink = "https://www.youtube.com/watch?v=65BAeDpwzGY";
+            String reviewTitle = "Sayuri - Mikazuki";
+            String description = "사유리의 데뷔곡인 '미카즈키'이다. 란포기담 Game of Laplace의 엔딩으로 사용되었다.";
+            MusicDTO data = new MusicDTO(musicLink, reviewTitle, description);
+
+            requestBody = mapper.writeValueAsString(data);
+        }
+
+        @Nested
+        @DisplayName("생성된 추천 상자가 없다면")
+        class Context_notExistMusicRecommendationBox {
+            @Test
+            @DisplayName("에러가 발생한다")
+            void it_shouldFail() throws Exception {
+                mockMvc.perform(
+                    post(requestPath)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(
+                        status().isNotFound()
+                    );
+            }
+        }
+
+        @Nested
+        @DisplayName("이미 추천 상자가 생성 된 경우")
+        class Context_alreadyExistMusicRecommendationBox {
+            @BeforeEach
+            void createBox() {
+                service.createMusicRecommendationBox(userName);
+            }
+
+            @Test
+            @DisplayName("음악을 성공적으로 추천한다.")
+            void it_shouldOk() throws Exception {
+                mockMvc.perform(
+                    post(requestPath)
+                        .content(requestBody)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                    .andExpect(
+                        status().isCreated()
+                    );
+            }
+        }
+    }
 }

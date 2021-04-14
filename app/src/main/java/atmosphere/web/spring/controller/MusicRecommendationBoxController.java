@@ -3,6 +3,7 @@ package atmosphere.web.spring.controller;
 import atmosphere.application.MusicRecommendApplicationService;
 import atmosphere.domain.MusicRecommendationBox;
 import atmosphere.error.NotFountMusicRecommendationBox;
+import atmosphere.web.spring.dto.MusicDTO;
 import atmosphere.web.spring.dto.MusicRecommendationBoxCreateDTO;
 import atmosphere.web.spring.dto.MusicRecommendationBoxDTO;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,25 @@ public class MusicRecommendationBoxController {
         @PathVariable String id
     ) {
         Optional<MusicRecommendationBox> musicBox = service.findMyMusicRecommendationBox(id);
+        return musicBox.map(
+            MusicRecommendationBoxDTO::fromModel
+        ).orElseThrow(
+            () -> new NotFountMusicRecommendationBox(id)
+        );
+    }
+
+    @PostMapping("{id}/recommend")
+    @ResponseStatus(HttpStatus.CREATED)
+    public MusicRecommendationBoxDTO recommendMusic(
+        @PathVariable String id,
+        @RequestBody MusicDTO music
+    ) {
+        Optional<MusicRecommendationBox> musicBox = service.recommendMusic(
+            id,
+            music.musicLink,
+            music.title,
+            music.description
+        );
         return musicBox.map(
             MusicRecommendationBoxDTO::fromModel
         ).orElseThrow(
