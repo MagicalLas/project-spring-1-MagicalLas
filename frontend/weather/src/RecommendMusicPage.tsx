@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps, useHistory } from 'react-router-dom';
 import './App.css';
 import './RecommendMusicPage.css'
 
@@ -11,6 +11,7 @@ interface MatchParams {
 function RecommendMusicPage(props: RouteComponentProps<MatchParams>) {
     const id = props.match.params.id;
 
+    const history = useHistory();
     const [reviewTitle, setreviewTitle] = useState("");
     const [musicLink, setmusicLink] = useState("");
     const [reviewDescription, setreviewDescription] = useState("");
@@ -21,7 +22,9 @@ function RecommendMusicPage(props: RouteComponentProps<MatchParams>) {
             description: reviewDescription,
             musicLink: musicLink,
         }
-        axios.post("https://api.atmop.dev/music-recommendation-box/" + id + "/recommend", recommendMusicRequestBody);
+        axios.post("https://api.atmop.dev/music-recommendation-box/" + id + "/recommend", recommendMusicRequestBody).then(
+            () => {history.push("/box/" + id + "/show")}
+        );
         return false;
     };
     

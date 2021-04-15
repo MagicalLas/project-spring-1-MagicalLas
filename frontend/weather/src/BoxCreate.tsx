@@ -1,15 +1,20 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import './App.css';
 import './BoxCreate.css';
 
 function BoxCreate() {
     const [userId, setUserId] = useState("");
+    const history = useHistory();
+    
     const createBox = () => {
         const writeReviewRequestBody = {
             userId: userId
         }
-        axios.post("https://api.atmop.dev/music-recommendation-box", writeReviewRequestBody);
+        axios.post("https://api.atmop.dev/music-recommendation-box", writeReviewRequestBody).then(
+            () => {history.push("/box/" + userId + "/show")}
+        );
         return false;
     }
     return (

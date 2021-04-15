@@ -11,6 +11,8 @@ import ReviewTour from './ReviewTour';
 import ReviewDetail from './ReviewDetail';
 import BoxCreate from './BoxCreate';
 import RecommendMusicPage from './RecommendMusicPage';
+import BoxTour from './BoxTour';
+import ShowRecommendationBox from './ShowRecommendationBox';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +20,8 @@ ReactDOM.render(
       <Switch>
         <Route path="/" exact component={App} />
         <Route path="/box-create" component={BoxCreate} />
+        <Route path="/box-tour" component={BoxTour} />
+        <Route path="/box/:id/show" component={ShowRecommendationBox} />
         <Route path="/box/:id/recommend" component={RecommendMusicPage} />
         <Route path="/write-review" component={WriteReview} />
         <Route path="/review-tour" component={ReviewTour} />

@@ -8,6 +8,11 @@ function App() {
           안녕하세요. atmosphere에 어서오세요.
         </h1>
         <a
+          href="/box-tour"
+        >
+          내 음악 추천함 살펴보기
+        </a>
+        <a
           href="/box-create"
         >
           음악 추천함 만들기

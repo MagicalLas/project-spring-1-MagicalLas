@@ -1,0 +1,17 @@
+p {
+    margin: 0px;
+    padding: 0px;
+}
+
+.eachMusic {
+    background-color: #8b91eb;
+    width: 400px;
+    height: auto;
+    margin-bottom: 10px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+}
+
+.link {
+    font-size: 20px;
+}
