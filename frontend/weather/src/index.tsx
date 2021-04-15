@@ -9,12 +9,16 @@ import App from './App';
 import WriteReview from './WriteReview';
 import ReviewTour from './ReviewTour';
 import ReviewDetail from './ReviewDetail';
+import BoxCreate from './BoxCreate';
+import RecommendMusicPage from './RecommendMusicPage';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={App} />
+        <Route path="/box-create" component={BoxCreate} />
+        <Route path="/box/:id/recommend" component={RecommendMusicPage} />
         <Route path="/write-review" component={WriteReview} />
         <Route path="/review-tour" component={ReviewTour} />
         <Route path="/reviews/:id" component={ReviewDetail} />
